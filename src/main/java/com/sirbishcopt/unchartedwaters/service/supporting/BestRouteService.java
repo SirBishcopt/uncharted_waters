@@ -1,4 +1,4 @@
-package com.sirbishcopt.unchartedwaters.services;
+package com.sirbishcopt.unchartedwaters.service.supporting;
 
 import com.sirbishcopt.unchartedwaters.domain.City;
 import com.sirbishcopt.unchartedwaters.domain.CommodityName;
