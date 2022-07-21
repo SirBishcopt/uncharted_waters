@@ -3,54 +3,54 @@ package com.sirbishcopt.unchartedwaters.domain;
 public enum CityName {
 
     ADEN("Aden"),
-    ALEXANDRIA("Alexandria"),
-    AMSTERDAM("Amsterdam"),
-    ATHENS("Athens"),
-    BASRAH("Basrah"),
-    BOSTON("Boston"),
-    BRUNEI("Brunei"),
-    BUENOS_AIRES("Buenos Aires"),
-    CALICUT("Calicut"),
-    CAPE_TOWN("Cape Town"),
-    CAYENNE("Cayenne"),
-    CEYLON("Ceylon"),
-    COPENHAGEN("Copenhagen"),
-    DARWIN("Darwin"),
+    ALEXANDRIA("Alex"),
+    AMSTERDAM("Ams"),
+    ATHENS("Ath"),
+    BASRAH("Bas"),
+    BOSTON("Bos"),
+    BRUNEI("Bru"),
+    BUENOS_AIRES("Bue"),
+    CALICUT("Cal"),
+    CAPE_TOWN("Cap"),
+    CAYENNE("Cay"),
+    CEYLON("Cey"),
+    COPENHAGEN("Cop"),
+    DARWIN("Dar"),
     EDO("Edo"),
-    HAMBURG("Hamburg"),
-    HANGZHOU("Hangzhou"),
-    ISTANBUL("Istanbul"),
-    JAMAICA("Jamaica"),
-    KOLKATA("Kolkata"),
-    LAS_PALMAS("Las Palmas"),
-    LISBON("Lisbon"),
-    LONDON("London"),
-    LUANDA("Luanda"),
-    MALACCA("Malacca"),
-    MANILA("Manila"),
-    MARSEILLE("Marseille"),
-    MOZAMBIQUE("Mozambique"),
-    NANTES("Nantes"),
-    NASSAU("Nassau"),
-    PANAMA_CITY("Panama City"),
-    PINJARRA("Pinjarra"),
-    QUANZHOU("Quanzhou"),
-    RIO_DE_JANEIRO("Rio de Janeiro"),
-    SANTO_DOMINGO("Santo Domingo"),
-    SEVILLE("Seville"),
-    ST_GEORGES("St. George's"),
-    STOCKHOLM("Stockholm"),
-    TUNIS("Tunis"),
-    VENICE("Venice");
+    HAMBURG("Ham"),
+    HANGZHOU("Han"),
+    ISTANBUL("Ist"),
+    JAMAICA("Jam"),
+    KOLKATA("Kol"),
+    LAS_PALMAS("Las"),
+    LISBON("Lis"),
+    LONDON("Lond"),
+    LUANDA("Lua"),
+    MALACCA("Mal"),
+    MANILA("Man"),
+    MARSEILLE("Mar"),
+    MOZAMBIQUE("Moz"),
+    NANTES("Nan"),
+    NASSAU("Nas"),
+    PANAMA_CITY("Pan"),
+    PINJARRA("Pin"),
+    QUANZHOU("Qua"),
+    RIO_DE_JANEIRO("Rio"),
+    SANTO_DOMINGO("San"),
+    SEVILLE("Sev"),
+    ST_GEORGES("Geo"),
+    STOCKHOLM("Stoc"),
+    TUNIS("Tun"),
+    VENICE("Ven");
 
-    private final String name;
+    private final String abbrev;
 
     CityName(String name) {
-        this.name = name;
+        this.abbrev = name;
     }
 
     public String toString() {
-        return this.name;
+        return this.abbrev;
     }
 
 }

@@ -3,33 +3,33 @@ package com.sirbishcopt.unchartedwaters.domain;
 public enum CommodityName {
     AGATE("Agate"),
     ALCOHOL("Alcohol"),
-    BANANAS("Bananas"),
-    CARPETS("Carpets"),
+    BANANAS("Banana"),
+    CARPETS("Carpet"),
     CLOTH("Cloth"),
-    DIAMONDS("Diamonds"),
+    DIAMONDS("Diamond"),
     DYE("Dye"),
-    FIREARMS("Firearms"),
+    FIREARMS("Firearm"),
     FISH("Fish"),
     GOLD("Gold"),
     LEATHER("Leather"),
     MEAT("Meat"),
     MEDICINE("Medicine"),
     PAPER("Paper"),
-    PEANUTS("Peanuts"),
-    PEARLS("Pearls"),
+    PEANUTS("Peanut"),
+    PEARLS("Pearl"),
     PORCELAIN("Porcelain"),
-    TEA_LEAVES("Tea Leaves"),
+    TEA_LEAVES("Tea"),
     TIN("Tin"),
     TOBACCO("Tobacco");
 
-    private final String name;
+    private final String abbrev;
 
     CommodityName(String name) {
-        this.name = name;
+        this.abbrev = name;
     }
 
     public String toString() {
-        return this.name;
+        return this.abbrev;
     }
 
 }

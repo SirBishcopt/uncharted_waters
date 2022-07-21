@@ -11,6 +11,8 @@ public class UnchartedwatersApplication {
 	public static void main(String[] args) {
 		//SpringApplication.run(UnchartedwatersApplication.class, args);
 
+		//TODO create all cities at launch
+
 		ImageManipulationService imageNameService = new ImageManipulationForNamesService();
 		ImageManipulationService imageCommoditiesService = new ImageManipulationForCommoditiesService();
 
@@ -18,7 +20,7 @@ public class UnchartedwatersApplication {
 		OcrService ocrService = new Tess4jService();
 
 		//ocrService.doOcr(imageNameService.prepareImage("https://cdn.discordapp.com/attachments/970011748956524657/998510679944331314/Screenshot_20220718-094440.jpg",false));//Malacca
-		//ocrService.doOcr(imageCommoditiesService.prepareImage("https://cdn.discordapp.com/attachments/970011748956524657/998510679944331314/Screenshot_20220718-094440.jpg",true));//Malacca
+		ocrService.doOcr(imageCommoditiesService.prepareImage("https://cdn.discordapp.com/attachments/970011748956524657/998510679944331314/Screenshot_20220718-094440.jpg",true));//Malacca
 		//ocrService.doOcr(imageNameService.prepareImage("https://cdn.discordapp.com/attachments/970010293264580738/998524337646743613/IMG_3327.png"));//Darwin
 		//ocrService.doOcr(imageCommoditiesService.prepareImage("https://cdn.discordapp.com/attachments/970010293264580738/998524347088117760/IMG_3328.png",true));//Darwin
 		//ocrService.doOcr(imageNameService.prepareImage("https://cdn.discordapp.com/attachments/970011748956524657/997783392097685625/F3EA8CD0-EDB4-482B-BD8D-ACB034167F6A.png"));//Panama City
