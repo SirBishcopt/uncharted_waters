@@ -8,7 +8,7 @@ public class City {
 
     private CityName name;
     private List<Commodity> commodities;
-    private boolean isEmpty = false;
+    private boolean isEmpty = Boolean.FALSE;
 
     public City(CityName name) {
         this.name = name;

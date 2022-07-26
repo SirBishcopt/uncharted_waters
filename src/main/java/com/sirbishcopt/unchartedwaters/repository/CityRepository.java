@@ -19,4 +19,6 @@ public interface CityRepository {
 
     void markCityAsEmpty(CityName cityName);
 
+    void clearTable();
+
 }
