@@ -1,16 +1,16 @@
 package com.sirbishcopt.unchartedwaters;
 
-//import org.springframework.boot.SpringApplication;
-//import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 import com.sirbishcopt.unchartedwaters.controller.DiscordCommunication;
 import com.sirbishcopt.unchartedwaters.service.collecting.*;
 
-//@SpringBootApplication
+@SpringBootApplication
 public class UnchartedwatersApplication {
 
 	public static void main(String[] args) {
-		//SpringApplication.run(UnchartedwatersApplication.class, args);
+		SpringApplication.run(UnchartedwatersApplication.class, args);
 
 		//TODO create all cities at launch
 
