@@ -1,11 +1,14 @@
-package com.sirbishcopt.unchartedwaters.service.collecting;
+package com.sirbishcopt.unchartedwaters.service.ocr;
 
 import net.sourceforge.tess4j.util.ImageHelper;
+import org.springframework.stereotype.Service;
 
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
 import java.net.URL;
 
+// TODO check if correct annotation
+@Service
 public class ImageManipulationForCommoditiesService implements ImageManipulationService {
 
     public BufferedImage prepareImage(String url, boolean isRightSideNeeded) {

@@ -1,4 +1,4 @@
-package com.sirbishcopt.unchartedwaters.service.collecting;
+package com.sirbishcopt.unchartedwaters.service.ocr;
 
 import java.awt.image.BufferedImage;
 

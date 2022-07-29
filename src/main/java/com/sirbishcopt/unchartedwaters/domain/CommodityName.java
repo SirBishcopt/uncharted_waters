@@ -1,35 +1,41 @@
 package com.sirbishcopt.unchartedwaters.domain;
 
 public enum CommodityName {
-    AGATE("Agate"),
-    ALCOHOL("Alcohol"),
-    BANANAS("Banana"),
-    CARPETS("Carpet"),
-    CLOTH("Cloth"),
-    DIAMONDS("Diamond"),
-    DYE("Dye"),
-    FIREARMS("Firearm"),
-    FISH("Fish"),
-    GOLD("Gold"),
-    LEATHER("Leather"),
-    MEAT("Meat"),
-    MEDICINE("Medicine"),
-    PAPER("Paper"),
-    PEANUTS("Peanut"),
-    PEARLS("Pearl"),
-    PORCELAIN("Porcelain"),
-    TEA_LEAVES("Tea"),
-    TIN("Tin"),
-    TOBACCO("Tobacco");
+    AGATE("Agat", "Agate"),
+    ALCOHOL("Alcoh", "Alcohol"),
+    BANANAS("Banan", "Bananas"),
+    CARPETS("Carpe", "Carpets"),
+    CLOTH("Clot", "Cloth"),
+    DIAMONDS("Diamon", "Diamonds"),
+    DYE("Dye", "Dye"),
+    FIREARMS("Fire", "Firearms"),
+    FISH("Fish", "Fish"),
+    GOLD("Gold", "Gold"),
+    LEATHER("Leather", "Leather"),
+    MEAT("Meat", "Meat"),
+    MEDICINE("Medic", "Medicine"),
+    PAPER("Paper", "Paper"),
+    PEANUTS("Peanut", "Peanuts"),
+    PEARLS("Pearl", "Pearls"),
+    PORCELAIN("Porcel", "Porcelain"),
+    TEA_LEAVES("Tea", "Tea Leaves"),
+    TIN("Tin", "Tin"),
+    TOBACCO("Tobac", "Tobacco");
 
     private final String abbrev;
+    private final String name;
 
-    CommodityName(String name) {
-        this.abbrev = name;
+    CommodityName(String abbrev, String name) {
+        this.abbrev = abbrev;
+        this.name = name;
+    }
+
+    public String getAbbrev() {
+        return abbrev;
     }
 
     public String toString() {
-        return this.abbrev;
+        return name;
     }
 
 }

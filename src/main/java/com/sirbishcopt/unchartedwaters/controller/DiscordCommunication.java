@@ -46,7 +46,19 @@ public class DiscordCommunication {
                     updatingController.updateCity(cityName, imagesUrl);
                     String userName = message.getUserData().username();
                     return message.getChannel()
-                            .flatMap(channel -> channel.createMessage(cityName.toString() + " updated, thanks " + userName + " :kissing_heart:"));
+                            .flatMap(channel -> channel.createMessage(cityName + " updated, thanks " + userName + " :kissing_heart:"));
+                }
+                return Mono.empty();
+            }).then();
+
+            Mono<Void> handleEmptyCommand = gateway.on(MessageCreateEvent.class, event -> {
+                Message message = event.getMessage();
+                // TODO try-catch with message to Discord about Exception
+                if (message.getContent().toLowerCase().startsWith("!empty")) {
+                    CityName cityName = updatingController.getCityName(message.getContent());
+                    updatingController.markCityAsEmpty(cityName);
+                    return message.getChannel()
+                            .flatMap(channel -> channel.createMessage(cityName + " marked as empty :grimacing:"));
                 }
                 return Mono.empty();
             }).then();
@@ -65,7 +77,7 @@ public class DiscordCommunication {
                 Message message = event.getMessage();
                 // TODO try-catch with message to Discord about Exception
                 if (message.getContent().toLowerCase().startsWith("!next")) {
-                    String nextStepCity = nextStepController.getNameOfNextCity(message.getContent(), false);
+                    CityName nextStepCity = nextStepController.getNameOfNextCity(message.getContent(), false);
                     String userName = message.getUserData().username();
                     return message.getChannel()
                             .flatMap(channel -> channel.createMessage(userName + ", your best shot is " + nextStepCity + " :moneybag:"));
@@ -77,7 +89,7 @@ public class DiscordCommunication {
                 Message message = event.getMessage();
                 // TODO try-catch with message to Discord about Exception
                 if (message.getContent().toLowerCase().startsWith("!last")) {
-                    String lastStepCity = nextStepController.getNameOfNextCity(message.getContent(), true);
+                    CityName lastStepCity = nextStepController.getNameOfNextCity(message.getContent(), true);
                     String userName = message.getUserData().username();
                     return message.getChannel()
                             .flatMap(channel -> channel.createMessage(userName + ", you should sell your goods in " + lastStepCity + " :money_mouth:"));
@@ -96,7 +108,7 @@ public class DiscordCommunication {
                 return Mono.empty();
             }).then();
 
-            return handleUpdateCommand.and(handleUpdateNeededCommand).and(handleNextStepCommand).and(handleLastStepCommand).and(handleResetCommand);
+            return handleUpdateCommand.and(handleEmptyCommand).and(handleUpdateNeededCommand).and(handleNextStepCommand).and(handleLastStepCommand).and(handleResetCommand);
         });
 
         login.block();
