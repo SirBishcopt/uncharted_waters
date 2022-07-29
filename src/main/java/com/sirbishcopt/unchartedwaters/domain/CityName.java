@@ -2,55 +2,61 @@ package com.sirbishcopt.unchartedwaters.domain;
 
 public enum CityName {
 
-    ADEN("Aden"),
-    ALEXANDRIA("Alex"),
-    AMSTERDAM("Ams"),
-    ATHENS("Ath"),
-    BASRAH("Bas"),
-    BOSTON("Bos"),
-    BRUNEI("Bru"),
-    BUENOS_AIRES("Bue"),
-    CALICUT("Cal"),
-    CAPE_TOWN("Cap"),
-    CAYENNE("Cay"),
-    CEYLON("Cey"),
-    COPENHAGEN("Cop"),
-    DARWIN("Dar"),
-    EDO("Edo"),
-    HAMBURG("Ham"),
-    HANGZHOU("Han"),
-    ISTANBUL("Ist"),
-    JAMAICA("Jam"),
-    KOLKATA("Kol"),
-    LAS_PALMAS("Las"),
-    LISBON("Lis"),
-    LONDON("Lond"),
-    LUANDA("Lua"),
-    MALACCA("Mal"),
-    MANILA("Man"),
-    MARSEILLE("Mar"),
-    MOZAMBIQUE("Moz"),
-    NANTES("Nan"),
-    NASSAU("Nas"),
-    PANAMA_CITY("Pan"),
-    PINJARRA("Pin"),
-    QUANZHOU("Qua"),
-    RIO_DE_JANEIRO("Rio"),
-    SANTO_DOMINGO("San"),
-    SEVILLE("Sev"),
-    ST_GEORGES("Geo"),
-    STOCKHOLM("Stoc"),
-    TUNIS("Tun"),
-    VENICE("Ven");
+    ADEN("Aden", "Aden"),
+    ALEXANDRIA("Alex", "Alexandria"),
+    AMSTERDAM("Ams", "Amsterdam"),
+    ATHENS("Ath", "Athens"),
+    BASRAH("Bas", "Basrah"),
+    BOSTON("Bos", "Boston"),
+    BRUNEI("Bru", "Brunei"),
+    BUENOS_AIRES("Bue", "Buenos Aires"),
+    CALICUT("Cal", "Calicut"),
+    CAPE_TOWN("Cap", "Cape Town"),
+    CAYENNE("Cay", "Cayenne"),
+    CEYLON("Cey", "Ceylon"),
+    COPENHAGEN("Cop", "Copenhagen"),
+    DARWIN("Dar", "Darwin"),
+    EDO("Edo", "Edo"),
+    HAMBURG("Ham", "Hamburg"),
+    HANGZHOU("Han", "Hangzhou"),
+    ISTANBUL("Ist", "Istanbul"),
+    JAMAICA("Jam", "Jamaica"),
+    KOLKATA("Kol", "Kolkata"),
+    LAS_PALMAS("Pal", "Las Palmas"),
+    LISBON("Lis", "Lisbon"),
+    LONDON("Lond", "London"),
+    LUANDA("Lua", "Luanda"),
+    MALACCA("Mal", "Malacca"),
+    MANILA("Man", "Manila"),
+    MARSEILLE("Mar", "Marseille"),
+    MOZAMBIQUE("Moz", "Mozambique"),
+    NANTES("Nan", "Nantes"),
+    NASSAU("Nas", "Nassau"),
+    PANAMA_CITY("Pan", "Panama City"),
+    PINJARRA("Pin", "Pinjarra"),
+    QUANZHOU("Qua", "Quanzhou"),
+    RIO_DE_JANEIRO("Rio", "Rio de Janeiro"),
+    SANTO_DOMINGO("Dom", "Santo Domingo"),
+    SEVILLE("Sev", "Seville"),
+    ST_GEORGES("Geo", "St. George's"),
+    STOCKHOLM("Stoc", "Stockholm"),
+    TUNIS("Tun", "Tunis"),
+    VENICE("Ven", "Venice");
 
     private final String abbrev;
+    private final String name;
 
-    CityName(String name) {
-        this.abbrev = name;
+    CityName(String abbrev, String name) {
+        this.abbrev = abbrev;
+        this.name = name;
+    }
+
+    public String getAbbrev() {
+        return abbrev;
     }
 
     public String toString() {
-        return this.abbrev;
+        return name;
     }
 
 }

@@ -22,7 +22,7 @@ public class EngUpdater implements StringToCityUpdater {
     private CityName convertStringToCityName(String ocrName) {
 
         for (CityName cityName : CityName.values()) {
-            Pattern compiledPattern = Pattern.compile(cityName.toString().toLowerCase());
+            Pattern compiledPattern = Pattern.compile(cityName.getAbbrev().toLowerCase());
             if (compiledPattern.matcher(ocrName.toLowerCase()).find()) {
                 return cityName;
             }
