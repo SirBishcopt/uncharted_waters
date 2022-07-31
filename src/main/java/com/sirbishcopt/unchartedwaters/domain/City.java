@@ -50,4 +50,13 @@ public class City {
         isEmpty = empty;
     }
 
+    @Override
+    public String toString() {
+        return "City{" +
+                "name=" + name +
+                ", commodities=" + commodities +
+                ", isEmpty=" + isEmpty +
+                '}';
+    }
+    
 }

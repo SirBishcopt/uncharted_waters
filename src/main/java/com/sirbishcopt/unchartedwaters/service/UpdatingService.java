@@ -19,8 +19,10 @@ public class UpdatingService {
     ImageManipulationService imageManipulationService;
     OcrService ocrService;
 
-    public UpdatingService(CityRepository cityRepository) {
+    public UpdatingService(CityRepository cityRepository, ImageManipulationService imageManipulationService, OcrService ocrService) {
         this.cityRepository = cityRepository;
+        this.imageManipulationService = imageManipulationService;
+        this.ocrService = ocrService;
     }
 
     public CityName getCityNameFromMessage(String message) {
@@ -48,6 +50,7 @@ public class UpdatingService {
         BufferedImage bufferedImage4 = imageManipulationService.prepareImage(attachments[1], true);
         String ocrCommodities4 = ocrService.doOcr(bufferedImage4);
         updateCommodities(city, ocrCommodities4);
+        System.out.println(city);
         cityRepository.save(city);
     }
 
