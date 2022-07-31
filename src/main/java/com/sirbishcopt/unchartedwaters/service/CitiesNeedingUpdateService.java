@@ -21,7 +21,7 @@ public class CitiesNeedingUpdateService {
     public Map<CityName, Integer> listNamesOfCitiesAndAmountOfCommoditiesThatRequireUpdate() {
         Map<CityName, Integer> cities = new TreeMap<>();
         for (CityName cityName : CityName.values()) {
-            City city = cityRepository.getCityByName(cityName);
+            City city = cityRepository.getReferenceById(cityName);
             int commoditiesNeedingUpdate = getAmountOfCommoditiesWithoutPrice(city);
             if (commoditiesNeedingUpdate != 0) {
                 cities.put(cityName, commoditiesNeedingUpdate);

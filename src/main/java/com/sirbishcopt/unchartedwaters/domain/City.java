@@ -1,14 +1,27 @@
 package com.sirbishcopt.unchartedwaters.domain;
 
+import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Random;
 
+@Entity
 public class City {
 
+    @Id
+    @Enumerated(EnumType.STRING)
     private CityName name;
+    @ElementCollection
     private List<Commodity> commodities;
-    private boolean isEmpty = Boolean.FALSE;
+    private boolean isEmpty;
+
+    public City() {
+    }
+
+    public City(CityName name, List<Commodity> commodities, boolean isEmpty) {
+        this.name = name;
+        this.commodities = commodities;
+        this.isEmpty = isEmpty;
+    }
 
     public City(CityName name) {
         this.name = name;
@@ -16,6 +29,7 @@ public class City {
         for (CommodityName commodityName : CommodityName.values()) {
             commodities.add(new Commodity(commodityName));
         }
+        this.isEmpty = Boolean.FALSE;
     }
 
     public Commodity getCommodity(CommodityName commodityName) {
@@ -34,16 +48,6 @@ public class City {
 
     public void setEmpty(boolean empty) {
         isEmpty = empty;
-    }
-
-    private Commodity drawRandomCommodity(Commodity commodity1, Commodity commodity2) {
-        Random random = new Random();
-        double randomDouble = random.nextDouble();
-        if (randomDouble < 0.5) {
-            return commodity1;
-        } else {
-            return commodity2;
-        }
     }
 
 }

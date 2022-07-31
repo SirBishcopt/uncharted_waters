@@ -35,7 +35,7 @@ public class UpdatingService {
     }
 
     public void updateCity(CityName cityName, String[] attachments) {
-        City city = cityRepository.getCityByName(cityName);
+        City city = cityRepository.getReferenceById(cityName);
         BufferedImage bufferedImage1 = imageManipulationService.prepareImage(attachments[0], false);
         String ocrCommodities1 = ocrService.doOcr(bufferedImage1);
         updateCommodities(city, ocrCommodities1);
@@ -48,7 +48,7 @@ public class UpdatingService {
         BufferedImage bufferedImage4 = imageManipulationService.prepareImage(attachments[1], true);
         String ocrCommodities4 = ocrService.doOcr(bufferedImage4);
         updateCommodities(city, ocrCommodities4);
-        cityRepository.updateCity(city);
+        cityRepository.save(city);
     }
 
     private void updateCommodities(City city, String ocrCommodities) {

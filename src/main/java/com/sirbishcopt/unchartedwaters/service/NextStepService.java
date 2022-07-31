@@ -4,7 +4,6 @@ import com.sirbishcopt.unchartedwaters.domain.*;
 import com.sirbishcopt.unchartedwaters.repository.CityRepository;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
 import java.util.Map;
 import java.util.Random;
 import java.util.regex.Pattern;
@@ -38,8 +37,8 @@ public class NextStepService {
         int profitFromBestCity = 0;
         for (CityName cityName : CityName.values()) {
             // TODO consider getting list of not empty cities from repository
-            if (!isLastTransaction && !cityRepository.getCityByName(cityName).isEmpty()) {
-                City city = cityRepository.getCityByName(cityName);
+            City city = cityRepository.getReferenceById(cityName);
+            if (!isLastTransaction && !city.isEmpty()) {
                 int profit = 0;
                 for (Map.Entry<CommodityName, Integer> commodityFromInventory : inventory.getCommodities().entrySet()) {
                     Commodity commodityFromCity = city.getCommodity(commodityFromInventory.getKey());
@@ -52,7 +51,6 @@ public class NextStepService {
                     bestCityName = drawRandomCityName(cityName, bestCityName);
                 }
             } else if (isLastTransaction) {
-                City city = cityRepository.getCityByName(cityName);
                 int profit = 0;
                 for (Map.Entry<CommodityName, Integer> commodityFromInventory : inventory.getCommodities().entrySet()) {
                     Commodity commodityFromCity = city.getCommodity(commodityFromInventory.getKey());
