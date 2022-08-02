@@ -1,7 +1,7 @@
 package com.sirbishcopt.unchartedwaters.service;
 
 import com.sirbishcopt.unchartedwaters.domain.*;
-import com.sirbishcopt.unchartedwaters.repository.CityRepository;
+import com.sirbishcopt.unchartedwaters.repository.LeaderRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.Map;
@@ -11,10 +11,10 @@ import java.util.regex.Pattern;
 @Service
 public class NextStepService {
 
-    private CityRepository cityRepository;
+    private LeaderRepository leaderRepository;
 
-    public NextStepService(CityRepository cityRepository) {
-        this.cityRepository = cityRepository;
+    public NextStepService(LeaderRepository leaderRepository) {
+        this.leaderRepository = leaderRepository;
     }
 
     public Inventory createInventoryFromMessage(String message) {
@@ -37,11 +37,11 @@ public class NextStepService {
         int profitFromBestCity = 0;
         for (CityName cityName : CityName.values()) {
             // TODO consider getting list of not empty cities from repository
-            City city = cityRepository.getReferenceById(cityName);
+            City city = leaderRepository.getCityByName(cityName);
             if (!isLastTransaction && !city.isEmpty()) {
                 int profit = 0;
                 for (Map.Entry<CommodityName, Integer> commodityFromInventory : inventory.getCommodities().entrySet()) {
-                    Commodity commodityFromCity = city.getCommodity(commodityFromInventory.getKey());
+                    Commodity commodityFromCity = city.getCommodityByName(commodityFromInventory.getKey());
                     profit += (commodityFromCity.getPrice() * commodityFromInventory.getValue());
                 }
                 if (profit > profitFromBestCity) {
@@ -53,7 +53,7 @@ public class NextStepService {
             } else if (isLastTransaction) {
                 int profit = 0;
                 for (Map.Entry<CommodityName, Integer> commodityFromInventory : inventory.getCommodities().entrySet()) {
-                    Commodity commodityFromCity = city.getCommodity(commodityFromInventory.getKey());
+                    Commodity commodityFromCity = city.getCommodityByName(commodityFromInventory.getKey());
                     profit += (commodityFromCity.getPrice() * commodityFromInventory.getValue());
                 }
                 if (profit > profitFromBestCity) {

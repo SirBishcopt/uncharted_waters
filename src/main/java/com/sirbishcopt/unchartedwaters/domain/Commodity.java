@@ -1,31 +1,34 @@
 package com.sirbishcopt.unchartedwaters.domain;
 
-import javax.persistence.Embeddable;
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
+import javax.persistence.*;
+import java.util.Objects;
 
-@Embeddable
+@Entity
 public class Commodity {
 
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private int id;
     @Enumerated(EnumType.STRING)
-    private CommodityName name;
+    private CommodityName commodityName;
     private int price;
 
     public Commodity() {
     }
 
-    public Commodity(CommodityName name, int price) {
-        this.name = name;
+    public Commodity(int id, CommodityName commodityName, int price) {
+        this.id = id;
+        this.commodityName = commodityName;
         this.price = price;
     }
 
-    public Commodity(CommodityName name) {
-        this.name = name;
+    public Commodity(CommodityName commodityName) {
+        this.commodityName = commodityName;
         this.price = 0;
     }
 
-    public CommodityName getName() {
-        return name;
+    public CommodityName getCommodityName() {
+        return commodityName;
     }
 
     public void setPrice(int price) {
@@ -34,6 +37,27 @@ public class Commodity {
 
     public int getPrice() {
         return price;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Commodity commodity = (Commodity) o;
+        return id == commodity.id && price == commodity.price && commodityName == commodity.commodityName;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, commodityName, price);
+    }
+
+    @Override
+    public String toString() {
+        return "Commodity{" +
+                "commodityName=" + commodityName +
+                ", price=" + price +
+                '}';
     }
 
 }

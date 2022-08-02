@@ -22,6 +22,7 @@ public class ImageManipulationForCommoditiesService implements ImageManipulation
 
         BufferedImage preparedImage = null;
         if (isRightSideNeeded) {
+            //TODO change from pixels to relative size
             preparedImage = ImageHelper.getSubImage(bufferedImage, bufferedImage.getWidth() / 2, 600, bufferedImage.getWidth() / 2, 1800);
             preparedImage = ImageHelper.convertImageToGrayscale(preparedImage);
             preparedImage = ImageHelper.convertImageToBinary(preparedImage);

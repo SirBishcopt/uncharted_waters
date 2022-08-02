@@ -11,19 +11,16 @@ import java.awt.image.BufferedImage;
 public class Tess4jService implements OcrService {
 
     public String doOcr(BufferedImage preparedImage) {
-
         try {
             ITesseract instance = new Tesseract();
             // TODO is this right Datapath
             instance.setDatapath("E:\\Users\\Stacjonarny\\IdeaProjects\\unchartedwaters\\src\\main\\resources");
             instance.setLanguage("eng");
-            System.out.println(instance.doOCR(preparedImage));
             return instance.doOCR(preparedImage);
         } catch (Exception e) {
             // TODO Exception handler
         }
         return "";
-
     }
 
 }

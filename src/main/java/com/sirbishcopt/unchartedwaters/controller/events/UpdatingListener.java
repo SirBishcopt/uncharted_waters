@@ -26,7 +26,6 @@ public class UpdatingListener implements EventListener<MessageCreateEvent> {
             // TODO method checking if attachments are valid (they exist, there's two of them, they end on .jpg or .png)
             String[] imagesUrl = getUrlFromAttachment(message.getAttachments());
             updatingController.updateCity(cityName, imagesUrl);
-            System.out.println("Works.");
             String userName = message.getUserData().username();
             return Mono.just(message)
                     .flatMap(Message::getChannel)

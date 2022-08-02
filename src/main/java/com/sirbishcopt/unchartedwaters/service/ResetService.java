@@ -1,19 +1,19 @@
 package com.sirbishcopt.unchartedwaters.service;
 
-import com.sirbishcopt.unchartedwaters.repository.CityRepository;
+import com.sirbishcopt.unchartedwaters.repository.LeaderRepository;
 import org.springframework.stereotype.Service;
 
 @Service
 public class ResetService {
 
-    private CityRepository cityRepository;
+    private LeaderRepository leaderRepository;
 
-    public ResetService(CityRepository cityRepository) {
-        this.cityRepository = cityRepository;
+    public ResetService(LeaderRepository leaderRepository) {
+        this.leaderRepository = leaderRepository;
     }
 
     public void resetDatabase() {
-        cityRepository.clearTable();
+        leaderRepository.resetTable();
     }
 
 }
