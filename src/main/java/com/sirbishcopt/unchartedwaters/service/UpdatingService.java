@@ -10,8 +10,6 @@ import com.sirbishcopt.unchartedwaters.service.ocr.OcrService;
 import org.springframework.stereotype.Service;
 
 import java.awt.image.BufferedImage;
-import java.math.BigDecimal;
-import java.math.RoundingMode;
 import java.util.regex.Pattern;
 
 @Service
@@ -39,9 +37,7 @@ public class UpdatingService {
     }
 
     public void updateCity(CityName cityName, String[] attachments) {
-        //City city = leaderRepository.getCityByName(cityName);
-        // TODO temporary solution for errors management
-        City city = new City(cityName);
+        City city = leaderRepository.getCityByName(cityName);
         BufferedImage bufferedImage1 = imageManipulationService.prepareImage(attachments[0], false);
         String ocrCommodities1 = ocrService.doOcr(bufferedImage1);
         addCommodities(city, ocrCommodities1);
@@ -54,6 +50,10 @@ public class UpdatingService {
         BufferedImage bufferedImage4 = imageManipulationService.prepareImage(attachments[1], true);
         String ocrCommodities4 = ocrService.doOcr(bufferedImage4);
         addCommodities(city, ocrCommodities4);
+        System.out.println(ocrCommodities1);
+        System.out.println(ocrCommodities2);
+        System.out.println(ocrCommodities3);
+        System.out.println(ocrCommodities4);
         leaderRepository.save(city);
     }
 
@@ -76,15 +76,9 @@ public class UpdatingService {
                             String priceInString = nextLineCut[k + 1];
                             Pattern compiledPatternThousand = Pattern.compile("k");
                             if (compiledPatternThousand.matcher(priceInString.toLowerCase()).find()) {
-                                priceInString.replaceAll("[kK]", "");
-                                double priceInDouble = Double.parseDouble(priceInString.replaceAll("[kK]", ""));
-                                priceInDouble *= 1000;
-                                BigDecimal bigDecimal = new BigDecimal(Double.toString(priceInDouble));
-                                bigDecimal = bigDecimal.setScale(0, RoundingMode.HALF_UP);
-                                price = (int) bigDecimal.doubleValue();
-                            } else {
-                                price = Integer.parseInt(priceInString);
+                                priceInString = priceInString.replaceAll("[.]", "").replaceAll("[kK]", "");
                             }
+                            price = Integer.parseInt(priceInString);
                             commodity.setPrice(price);
                             break;
                         }

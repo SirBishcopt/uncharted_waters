@@ -19,7 +19,7 @@ public class NextStepService {
 
     public Inventory createInventoryFromMessage(String message) {
         Inventory inventory = new Inventory();
-        String[] lines = message.split(" ");
+        String[] lines = message.split("\\s+");
         for (int i = 0; i < lines.length; i++) {
             for (CommodityName commodityName : CommodityName.values()) {
                 Pattern compiledPatternCommodity = Pattern.compile(commodityName.getAbbrev().toLowerCase());
@@ -39,28 +39,28 @@ public class NextStepService {
             // TODO consider getting list of not empty cities from repository
             City city = leaderRepository.getCityByName(cityName);
             if (!isLastTransaction && !city.isEmpty()) {
-                int profit = 0;
                 for (Map.Entry<CommodityName, Integer> commodityFromInventory : inventory.getCommodities().entrySet()) {
+                    int profit = 0;
                     Commodity commodityFromCity = city.getCommodityByName(commodityFromInventory.getKey());
                     profit += (commodityFromCity.getPrice() * commodityFromInventory.getValue());
-                }
-                if (profit > profitFromBestCity) {
-                    bestCityName = cityName;
-                    profitFromBestCity = profit;
-                } else if (profit == profitFromBestCity) {
-                    bestCityName = drawRandomCityName(cityName, bestCityName);
+                    if (profit > profitFromBestCity) {
+                        bestCityName = cityName;
+                        profitFromBestCity = profit;
+                    } else if (profit == profitFromBestCity) {
+                        bestCityName = drawRandomCityName(cityName, bestCityName);
+                    }
                 }
             } else if (isLastTransaction) {
-                int profit = 0;
                 for (Map.Entry<CommodityName, Integer> commodityFromInventory : inventory.getCommodities().entrySet()) {
+                    int profit = 0;
                     Commodity commodityFromCity = city.getCommodityByName(commodityFromInventory.getKey());
                     profit += (commodityFromCity.getPrice() * commodityFromInventory.getValue());
-                }
-                if (profit > profitFromBestCity) {
-                    bestCityName = cityName;
-                    profitFromBestCity = profit;
-                } else if (profit == profitFromBestCity) {
-                    bestCityName = drawRandomCityName(cityName, bestCityName);
+                    if (profit > profitFromBestCity) {
+                        bestCityName = cityName;
+                        profitFromBestCity = profit;
+                    } else if (profit == profitFromBestCity) {
+                        bestCityName = drawRandomCityName(cityName, bestCityName);
+                    }
                 }
             }
         }

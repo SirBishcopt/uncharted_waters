@@ -16,7 +16,7 @@ public class LeaderRepository {
     }
 
     public City getCityByName(CityName cityName) {
-        return cityRepository.getReferenceById(cityName);
+        return cityRepository.findById(cityName).get();
     }
 
     public void resetTable() {
@@ -33,8 +33,12 @@ public class LeaderRepository {
         cityRepository.save(city);
     }
 
+    // TODO consider doing it with annotations in CityRepository
     public void markCityAsEmpty(CityName cityName) {
-        cityRepository.markCityAsEmpty(cityName);
+        //cityRepository.markCityAsEmpty(cityName);
+        City city = getCityByName(cityName);
+        city.markAsEmpty();
+        save(city);
     }
 
 }

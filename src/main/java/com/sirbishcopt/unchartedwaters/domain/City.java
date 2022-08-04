@@ -51,6 +51,10 @@ public class City {
         return isEmpty;
     }
 
+    public void markAsEmpty() {
+        isEmpty = true;
+    }
+
     @Override
     public String toString() {
         return "City{" +

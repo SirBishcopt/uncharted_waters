@@ -21,13 +21,14 @@ public class ImageManipulationForCommoditiesService implements ImageManipulation
         }
 
         BufferedImage preparedImage = null;
+        int yStartPoint = (int) (bufferedImage.getHeight() * 0.3);
+        int yEndPoint = (int) (bufferedImage.getHeight() * 0.61);
         if (isRightSideNeeded) {
-            //TODO change from pixels to relative size
-            preparedImage = ImageHelper.getSubImage(bufferedImage, bufferedImage.getWidth() / 2, 600, bufferedImage.getWidth() / 2, 1800);
+            preparedImage = ImageHelper.getSubImage(bufferedImage, bufferedImage.getWidth() / 2, yStartPoint, bufferedImage.getWidth() / 2, yEndPoint);
             preparedImage = ImageHelper.convertImageToGrayscale(preparedImage);
             preparedImage = ImageHelper.convertImageToBinary(preparedImage);
         } else {
-            preparedImage = ImageHelper.getSubImage(bufferedImage, 0, 600, bufferedImage.getWidth() / 2, 1800);
+            preparedImage = ImageHelper.getSubImage(bufferedImage, 0, yStartPoint, bufferedImage.getWidth() / 2, yEndPoint);
             preparedImage = ImageHelper.convertImageToGrayscale(preparedImage);
             preparedImage = ImageHelper.convertImageToBinary(preparedImage);
         }
