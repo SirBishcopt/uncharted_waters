@@ -16,6 +16,7 @@ public class Tess4jService implements OcrService {
             // TODO is this right Datapath
             instance.setDatapath("E:\\Users\\Stacjonarny\\IdeaProjects\\unchartedwaters\\src\\main\\resources");
             instance.setLanguage("eng");
+            System.out.println(instance.doOCR(preparedImage));
             return instance.doOCR(preparedImage);
         } catch (Exception e) {
             // TODO Exception handler

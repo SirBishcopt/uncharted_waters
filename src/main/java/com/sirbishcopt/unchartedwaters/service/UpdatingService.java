@@ -78,7 +78,12 @@ public class UpdatingService {
                             if (compiledPatternThousand.matcher(priceInString.toLowerCase()).find()) {
                                 priceInString = priceInString.replaceAll("[.]", "").replaceAll("[kK]", "");
                             }
-                            price = Integer.parseInt(priceInString);
+                            // TODO do it better
+                            try {
+                                price = Integer.parseInt(priceInString);
+                            } catch (Exception e) {
+                                price = 0;
+                            }
                             commodity.setPrice(price);
                             break;
                         }
