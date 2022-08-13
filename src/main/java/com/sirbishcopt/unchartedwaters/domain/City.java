@@ -51,8 +51,8 @@ public class City {
         return isEmpty;
     }
 
-    public void markAsEmpty() {
-        isEmpty = true;
+    public void setEmpty(boolean empty) {
+        isEmpty = empty;
     }
 
     @Override

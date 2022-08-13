@@ -2,6 +2,8 @@ package com.sirbishcopt.unchartedwaters.repository;
 
 import com.sirbishcopt.unchartedwaters.domain.City;
 import com.sirbishcopt.unchartedwaters.domain.CityName;
+import com.sirbishcopt.unchartedwaters.domain.Commodity;
+import com.sirbishcopt.unchartedwaters.domain.CommodityName;
 import org.springframework.stereotype.Repository;
 
 @Repository
@@ -19,12 +21,23 @@ public class LeaderRepository {
         return cityRepository.findById(cityName).get();
     }
 
+    // TODO consider doing with deleteAll()
     public void resetTable() {
-        cityRepository.deleteAll();
-        for (CityName cityName : CityName.values()) {
-            City city = new City(cityName);
-            commodityRepository.saveAll(city.getCommodities());
-            cityRepository.save(city);
+        if (cityRepository.findAll().isEmpty()) {
+            for (CityName cityName : CityName.values()) {
+                City city = new City(cityName);
+                save(city);
+            }
+        } else {
+            for (CityName cityName : CityName.values()) {
+                City city = getCityByName(cityName);
+                city.setEmpty(false);
+                for (CommodityName commodityName : CommodityName.values()) {
+                    Commodity commodity = city.getCommodityByName(commodityName);
+                    commodity.setPrice(0);
+                }
+                save(city);
+            }
         }
     }
 
@@ -35,9 +48,10 @@ public class LeaderRepository {
 
     // TODO consider doing it with annotations in CityRepository
     public void markCityAsEmpty(CityName cityName) {
+
         //cityRepository.markCityAsEmpty(cityName);
         City city = getCityByName(cityName);
-        city.markAsEmpty();
+        city.setEmpty(true);
         save(city);
     }
 

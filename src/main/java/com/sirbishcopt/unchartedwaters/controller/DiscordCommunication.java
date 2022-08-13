@@ -12,14 +12,12 @@ import java.util.List;
 @Configuration
 public class DiscordCommunication {
 
-    //TODO create all cities at launch
-
     @Bean
     public <T extends Event> GatewayDiscordClient gatewayDiscordClient(List<EventListener<T>> eventListeners) {
         GatewayDiscordClient client = null;
 
         try {
-            client = DiscordClientBuilder.create(System.getenv("bot_token"))
+            client = DiscordClientBuilder.create(System.getenv("BOT_TOKEN"))
                     .build()
                     .login()
                     .block();

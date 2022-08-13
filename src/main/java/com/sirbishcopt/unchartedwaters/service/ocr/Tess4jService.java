@@ -14,9 +14,8 @@ public class Tess4jService implements OcrService {
         try {
             ITesseract instance = new Tesseract();
             // TODO is this right Datapath
-            instance.setDatapath("E:\\Users\\Stacjonarny\\IdeaProjects\\unchartedwaters\\src\\main\\resources");
+            instance.setDatapath(System.getenv("TESSDATA_PREFIX"));
             instance.setLanguage("eng");
-            System.out.println(instance.doOCR(preparedImage));
             return instance.doOCR(preparedImage);
         } catch (Exception e) {
             // TODO Exception handler

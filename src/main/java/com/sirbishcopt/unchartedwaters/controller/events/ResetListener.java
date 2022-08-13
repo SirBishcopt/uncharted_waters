@@ -3,10 +3,10 @@ package com.sirbishcopt.unchartedwaters.controller.events;
 import com.sirbishcopt.unchartedwaters.controller.ResetController;
 import discord4j.core.event.domain.message.MessageCreateEvent;
 import discord4j.core.object.entity.Message;
-import org.springframework.stereotype.Service;
+import org.springframework.stereotype.Component;
 import reactor.core.publisher.Mono;
 
-@Service
+@Component
 public class ResetListener implements EventListener<MessageCreateEvent> {
 
     private ResetController resetController;
