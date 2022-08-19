@@ -7,7 +7,6 @@ import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
 import java.net.URL;
 
-// TODO check if correct annotation
 @Service
 public class ImageManipulationForCommoditiesService implements ImageManipulationService {
 

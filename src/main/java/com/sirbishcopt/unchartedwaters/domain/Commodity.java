@@ -1,7 +1,6 @@
 package com.sirbishcopt.unchartedwaters.domain;
 
 import javax.persistence.*;
-import java.util.Objects;
 
 @Entity
 public class Commodity {
@@ -14,12 +13,6 @@ public class Commodity {
     private int price;
 
     public Commodity() {
-    }
-
-    public Commodity(int id, CommodityName commodityName, int price) {
-        this.id = id;
-        this.commodityName = commodityName;
-        this.price = price;
     }
 
     public Commodity(CommodityName commodityName) {
@@ -37,27 +30,6 @@ public class Commodity {
 
     public int getPrice() {
         return price;
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        Commodity commodity = (Commodity) o;
-        return id == commodity.id && price == commodity.price && commodityName == commodity.commodityName;
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(id, commodityName, price);
-    }
-
-    @Override
-    public String toString() {
-        return "Commodity{" +
-                "commodityName=" + commodityName +
-                ", price=" + price +
-                '}';
     }
 
 }

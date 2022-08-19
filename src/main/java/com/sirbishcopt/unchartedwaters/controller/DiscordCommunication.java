@@ -14,6 +14,7 @@ public class DiscordCommunication {
 
     @Bean
     public <T extends Event> GatewayDiscordClient gatewayDiscordClient(List<EventListener<T>> eventListeners) {
+
         GatewayDiscordClient client = null;
 
         try {
@@ -21,18 +22,17 @@ public class DiscordCommunication {
                     .build()
                     .login()
                     .block();
-
             for (EventListener<T> listener : eventListeners) {
                 client.on(listener.getEventType())
                         .flatMap(listener::execute)
-                        .onErrorResume(listener::handleError)
                         .subscribe();
             }
         } catch (Exception exception) {
-            // TODO handle exceptions
+            // TODO handle exceptions by creating Logs
         }
 
         return client;
+
     }
 
 }

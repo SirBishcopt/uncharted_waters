@@ -11,7 +11,6 @@ public class Inventory {
     }
 
     public void addCommodityAndAmount(CommodityName commodityName, Integer amount) {
-
         commodities.put(commodityName, amount);
     }
 
@@ -19,10 +18,4 @@ public class Inventory {
         return commodities;
     }
 
-    @Override
-    public String toString() {
-        return "Inventory{" +
-                "commodities=" + commodities +
-                '}';
-    }
 }

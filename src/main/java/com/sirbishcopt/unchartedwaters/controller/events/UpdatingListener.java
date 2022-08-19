@@ -5,12 +5,12 @@ import com.sirbishcopt.unchartedwaters.domain.CityName;
 import discord4j.core.event.domain.message.MessageCreateEvent;
 import discord4j.core.object.entity.Attachment;
 import discord4j.core.object.entity.Message;
-import org.springframework.stereotype.Service;
+import org.springframework.stereotype.Component;
 import reactor.core.publisher.Mono;
 
 import java.util.List;
 
-@Service
+@Component
 public class UpdatingListener implements EventListener<MessageCreateEvent> {
 
     private UpdatingController updatingController;
@@ -21,6 +21,7 @@ public class UpdatingListener implements EventListener<MessageCreateEvent> {
 
     public Mono<Void> processCommand(Message message) {
 
+        // TODO error handling
         if (message.getContent().toLowerCase().startsWith("!add")) {
             CityName cityName = updatingController.getCityName(message.getContent());
             // TODO method checking if attachments are valid (they exist, there's two of them, they end on .jpg or .png)
@@ -35,6 +36,14 @@ public class UpdatingListener implements EventListener<MessageCreateEvent> {
         return Mono.empty();
     }
 
+    private String[] getUrlFromAttachment(List<Attachment> attachments) {
+        String[] imagesUrl = new String[2];
+        for (int i = 0; i < attachments.size(); i++) {
+            imagesUrl[i] = attachments.get(i).getUrl();
+        }
+        return imagesUrl;
+    }
+
     @Override
     public Class<MessageCreateEvent> getEventType() {
         return MessageCreateEvent.class;
@@ -43,14 +52,6 @@ public class UpdatingListener implements EventListener<MessageCreateEvent> {
     @Override
     public Mono<Void> execute(MessageCreateEvent event) {
         return processCommand(event.getMessage());
-    }
-
-    private String[] getUrlFromAttachment(List<Attachment> attachments) {
-        String[] imagesUrl = new String[2];
-        for (int i = 0; i < attachments.size(); i++) {
-            imagesUrl[i] = attachments.get(i).getUrl();
-        }
-        return imagesUrl;
     }
 
 }

@@ -1,29 +1,29 @@
 package com.sirbishcopt.unchartedwaters.controller.events;
 
-import com.sirbishcopt.unchartedwaters.controller.NextStepController;
+import com.sirbishcopt.unchartedwaters.controller.NextCityController;
 import com.sirbishcopt.unchartedwaters.domain.CityName;
 import discord4j.core.event.domain.message.MessageCreateEvent;
 import discord4j.core.object.entity.Message;
-import org.springframework.stereotype.Service;
+import org.springframework.stereotype.Component;
 import reactor.core.publisher.Mono;
 
-@Service
-public class NextStepListener implements EventListener<MessageCreateEvent> {
+@Component
+public class LastCityListener implements EventListener<MessageCreateEvent> {
 
-    private NextStepController nextStepController;
+    private NextCityController nextCityController;
 
-    public NextStepListener(NextStepController nextStepController) {
-        this.nextStepController = nextStepController;
+    public LastCityListener(NextCityController nextCityController) {
+        this.nextCityController = nextCityController;
     }
 
     public Mono<Void> processCommand(Message message) {
 
-        if (message.getContent().toLowerCase().startsWith("!next")) {
-            CityName nextStepCity = nextStepController.getNameOfNextCity(message.getContent(), false);
+        if (message.getContent().toLowerCase().startsWith("!last")) {
+            CityName lastCity = nextCityController.getNameOfNextCity(message.getContent(), true);
             String userName = message.getUserData().username();
             return Mono.just(message)
                     .flatMap(Message::getChannel)
-                    .flatMap(channel -> channel.createMessage(userName + ", your best shot is " + nextStepCity + " :moneybag:"))
+                    .flatMap(channel -> channel.createMessage(userName + ", you should sell your goods in " + lastCity + " :money_mouth:"))
                     .then();
         }
         return Mono.empty();

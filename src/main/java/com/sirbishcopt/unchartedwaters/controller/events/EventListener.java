@@ -9,9 +9,4 @@ public interface EventListener<T extends Event> {
 
     Mono<Void> execute(T event);
 
-    default Mono<Void> handleError(Throwable error) {
-        // TODO handle errors
-        return Mono.empty();
-    }
-
 }

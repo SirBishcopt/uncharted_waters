@@ -6,6 +6,8 @@ import com.sirbishcopt.unchartedwaters.domain.Commodity;
 import com.sirbishcopt.unchartedwaters.domain.CommodityName;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
+
 @Repository
 public class LeaderRepository {
 
@@ -21,23 +23,11 @@ public class LeaderRepository {
         return cityRepository.findById(cityName).get();
     }
 
-    // TODO consider doing with deleteAll()
     public void resetTable() {
         if (cityRepository.findAll().isEmpty()) {
-            for (CityName cityName : CityName.values()) {
-                City city = new City(cityName);
-                save(city);
-            }
+            resetTableIfRepositoryIsEmpty();
         } else {
-            for (CityName cityName : CityName.values()) {
-                City city = getCityByName(cityName);
-                city.setEmpty(false);
-                for (CommodityName commodityName : CommodityName.values()) {
-                    Commodity commodity = city.getCommodityByName(commodityName);
-                    commodity.setPrice(0);
-                }
-                save(city);
-            }
+            resetTableIfRepositoryIsNotEmpty();
         }
     }
 
@@ -46,13 +36,37 @@ public class LeaderRepository {
         cityRepository.save(city);
     }
 
-    // TODO consider doing it with annotations in CityRepository
     public void markCityAsEmpty(CityName cityName) {
-
-        //cityRepository.markCityAsEmpty(cityName);
         City city = getCityByName(cityName);
         city.setEmpty(true);
         save(city);
+    }
+
+    public List<City> getAllCities() {
+        return cityRepository.findAll();
+    }
+
+    public List<City> getCitiesThatAreNotEmpty() {
+        return cityRepository.findByEmptyFalse();
+    }
+
+    private void resetTableIfRepositoryIsEmpty() {
+        for (CityName cityName : CityName.values()) {
+            City city = new City(cityName);
+            save(city);
+        }
+    }
+
+    private void resetTableIfRepositoryIsNotEmpty() {
+        for (CityName cityName : CityName.values()) {
+            City city = getCityByName(cityName);
+            city.setEmpty(false);
+            for (CommodityName commodityName : CommodityName.values()) {
+                Commodity commodity = city.getCommodityByName(commodityName);
+                commodity.setPrice(0);
+            }
+            save(city);
+        }
     }
 
 }

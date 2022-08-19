@@ -10,34 +10,34 @@ import java.util.Map;
 import java.util.TreeMap;
 
 @Service
-public class CitiesNeedingUpdateService {
+public class IncompleteCitiesService {
 
     private LeaderRepository leaderRepository;
 
-    public CitiesNeedingUpdateService(LeaderRepository leaderRepository) {
+    public IncompleteCitiesService(LeaderRepository leaderRepository) {
         this.leaderRepository = leaderRepository;
     }
 
-    public Map<CityName, Integer> listNamesOfCitiesAndAmountOfCommoditiesThatRequireUpdate() {
-        Map<CityName, Integer> cities = new TreeMap<>();
+    public Map<CityName, Integer> listNamesOfIncompleteCitiesAndAmountOfLackingCommodities() {
+        Map<CityName, Integer> incompleteCities = new TreeMap<>();
         for (CityName cityName : CityName.values()) {
             City city = leaderRepository.getCityByName(cityName);
-            int commoditiesNeedingUpdate = getAmountOfCommoditiesWithoutPrice(city);
+            int commoditiesNeedingUpdate = getAmountOfCommoditiesWithPriceEqualsZero(city);
             if (commoditiesNeedingUpdate != 0) {
-                cities.put(cityName, commoditiesNeedingUpdate);
+                incompleteCities.put(cityName, commoditiesNeedingUpdate);
             }
         }
-        return cities;
+        return incompleteCities;
     }
 
-    private int getAmountOfCommoditiesWithoutPrice(City city) {
-        int commoditiesNeedingUpdate = 0;
+    private int getAmountOfCommoditiesWithPriceEqualsZero(City city) {
+        int commoditiesWithPriceEqualsZero = 0;
         for (CommodityName commodityName : CommodityName.values()) {
             if (city.getCommodityByName(commodityName).getPrice() == 0) {
-                commoditiesNeedingUpdate++;
+                commoditiesWithPriceEqualsZero++;
             }
         }
-        return commoditiesNeedingUpdate;
+        return commoditiesWithPriceEqualsZero;
     }
 
 }
