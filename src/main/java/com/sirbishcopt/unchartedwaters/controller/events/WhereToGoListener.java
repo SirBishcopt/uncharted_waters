@@ -1,27 +1,27 @@
 package com.sirbishcopt.unchartedwaters.controller.events;
 
-import com.sirbishcopt.unchartedwaters.controller.IncompleteCitiesController;
 import com.sirbishcopt.unchartedwaters.domain.CityName;
+import com.sirbishcopt.unchartedwaters.service.IncompleteCitiesService;
 import discord4j.core.event.domain.message.MessageCreateEvent;
 import discord4j.core.object.entity.Message;
-import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Controller;
 import reactor.core.publisher.Mono;
 
 import java.util.Map;
 
-@Component
+@Controller
 public class WhereToGoListener implements EventListener<MessageCreateEvent> {
 
-    private IncompleteCitiesController incompleteCitiesController;
+    private final IncompleteCitiesService incompleteCitiesService;
 
-    public WhereToGoListener(IncompleteCitiesController incompleteCitiesController) {
-        this.incompleteCitiesController = incompleteCitiesController;
+    public WhereToGoListener(IncompleteCitiesService incompleteCitiesService) {
+        this.incompleteCitiesService = incompleteCitiesService;
     }
 
     public Mono<Void> processCommand(Message message) {
 
         if (message.getContent().equalsIgnoreCase("!where to go")) {
-            Map<CityName, Integer> incompleteCities = incompleteCitiesController.getIncompleteCities();
+            Map<CityName, Integer> incompleteCities = incompleteCitiesService.listNamesOfIncompleteCitiesAndAmountOfLackingCommodities();
             String incompleteCitiesMessage = createIncompleteCitiesMessage(incompleteCities);
             return Mono.just(message)
                     .flatMap(Message::getChannel)
@@ -33,15 +33,17 @@ public class WhereToGoListener implements EventListener<MessageCreateEvent> {
 
     private String createIncompleteCitiesMessage(Map<CityName, Integer> incompleteCities) {
 
-        String citiesAndCommodities = "";
-        for (Map.Entry<CityName, Integer> incompleteCityEntry : incompleteCities.entrySet()) {
-            citiesAndCommodities = citiesAndCommodities + "\n- " + incompleteCityEntry.getKey().toString()
-                    + " (lacking " + incompleteCityEntry.getValue() + " commodities)";
-        }
-
-        if (citiesAndCommodities.isEmpty()) {
+        if (incompleteCities.isEmpty()) {
             return "We're good, Captains :grin: Every city has been checked.";
         } else {
+            StringBuilder citiesAndCommodities = new StringBuilder();
+            for (Map.Entry<CityName, Integer> incompleteCityEntry : incompleteCities.entrySet()) {
+                citiesAndCommodities.append("\n- ")
+                        .append(incompleteCityEntry.getKey().toString())
+                        .append(" (lacking ")
+                        .append(incompleteCityEntry.getValue())
+                        .append(" commodities)");
+            }
             return "All hands on deck, Captains! We still need to update:" + citiesAndCommodities;
         }
 

@@ -21,17 +21,6 @@ public class UpdatingService {
         this.ocrService = ocrService;
     }
 
-    public CityName getCityNameFromMessage(String message) {
-        // TODO throw exception if CityName not found
-        for (CityName cityName : CityName.values()) {
-            Pattern compiledPattern = Pattern.compile(cityName.getAbbrev().toLowerCase());
-            if (compiledPattern.matcher(message.toLowerCase()).find()) {
-                return cityName;
-            }
-        }
-        return null;
-    }
-
     public void updateCity(CityName cityName, String[] attachments) {
         City city = leaderRepository.getCityByName(cityName);
         String ocrText = ocrService.doOcr(attachments);
@@ -89,7 +78,7 @@ public class UpdatingService {
 
         try {
             return Integer.parseInt(priceInString);
-        } catch (Exception e) {
+        } catch (NumberFormatException e) {
             return 0;
         }
 

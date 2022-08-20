@@ -7,36 +7,17 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.Map;
 import java.util.Random;
-import java.util.regex.Pattern;
 
 @Service
 public class NextCityService {
 
-    private LeaderRepository leaderRepository;
+    private final LeaderRepository leaderRepository;
 
     public NextCityService(LeaderRepository leaderRepository) {
         this.leaderRepository = leaderRepository;
     }
 
-    public Inventory createInventoryFromMessage(String message) {
-
-        Inventory inventory = new Inventory();
-        String[] messageInLines = message.split("\\s+");
-
-        // TODO what if no commodity or no price
-        for (int i = 0; i < messageInLines.length; i++) {
-            for (CommodityName commodityName : CommodityName.values()) {
-                Pattern compiledPatternCommodity = Pattern.compile(commodityName.getAbbrev().toLowerCase());
-                if (compiledPatternCommodity.matcher(messageInLines[i].toLowerCase()).find()) {
-                    int price = Integer.parseInt(messageInLines[i + 1]);
-                    inventory.addCommodityAndAmount(commodityName, price);
-                }
-            }
-        }
-
-        return inventory;
-    }
-
+    // TODO Optional na końcu z errorem żeby nie null, gdy cała baza pusta
     public CityName getNextCity(Inventory inventory, boolean isLastTransaction) {
 
         CityName bestCityName = null;

@@ -1,25 +1,28 @@
 package com.sirbishcopt.unchartedwaters.controller.events;
 
-import com.sirbishcopt.unchartedwaters.controller.NextCityController;
 import com.sirbishcopt.unchartedwaters.domain.CityName;
+import com.sirbishcopt.unchartedwaters.domain.Inventory;
+import com.sirbishcopt.unchartedwaters.service.NextCityService;
+import com.sirbishcopt.unchartedwaters.utils.ExtractionUtil;
 import discord4j.core.event.domain.message.MessageCreateEvent;
 import discord4j.core.object.entity.Message;
-import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Controller;
 import reactor.core.publisher.Mono;
 
-@Component
+@Controller
 public class NextCityListener implements EventListener<MessageCreateEvent> {
 
-    private NextCityController nextCityController;
+    private final NextCityService nextCityService;
 
-    public NextCityListener(NextCityController nextCityController) {
-        this.nextCityController = nextCityController;
+    public NextCityListener(NextCityService nextCityService) {
+        this.nextCityService = nextCityService;
     }
 
     public Mono<Void> processCommand(Message message) {
 
         if (message.getContent().toLowerCase().startsWith("!next")) {
-            CityName nextCity = nextCityController.getNameOfNextCity(message.getContent(), false);
+            Inventory inventory = ExtractionUtil.extractInventoryFromMessage(message.getContent());
+            CityName nextCity = nextCityService.getNextCity(inventory, false);
             String userName = message.getUserData().username();
             return Mono.just(message)
                     .flatMap(Message::getChannel)

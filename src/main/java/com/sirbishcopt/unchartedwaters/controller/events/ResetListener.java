@@ -1,24 +1,24 @@
 package com.sirbishcopt.unchartedwaters.controller.events;
 
-import com.sirbishcopt.unchartedwaters.controller.ResetController;
+import com.sirbishcopt.unchartedwaters.service.ResetService;
 import discord4j.core.event.domain.message.MessageCreateEvent;
 import discord4j.core.object.entity.Message;
-import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Controller;
 import reactor.core.publisher.Mono;
 
-@Component
+@Controller
 public class ResetListener implements EventListener<MessageCreateEvent> {
 
-    private ResetController resetController;
+    private final ResetService resetService;
 
-    public ResetListener(ResetController resetController) {
-        this.resetController = resetController;
+    public ResetListener(ResetService resetService) {
+        this.resetService = resetService;
     }
 
     public Mono<Void> processCommand(Message message) {
 
         if (message.getContent().equalsIgnoreCase("!reset")) {
-            resetController.resetDatabase();
+            resetService.resetDatabase();
             return Mono.just(message)
                     .flatMap(Message::getChannel)
                     .flatMap(channel -> channel.createMessage("Every city is cleared and ready for update! Fair winds and following seas, Captains! :ship:"))

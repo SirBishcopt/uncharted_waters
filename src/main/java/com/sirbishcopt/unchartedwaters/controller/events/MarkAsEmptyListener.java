@@ -1,27 +1,28 @@
 package com.sirbishcopt.unchartedwaters.controller.events;
 
-import com.sirbishcopt.unchartedwaters.controller.UpdatingController;
 import com.sirbishcopt.unchartedwaters.domain.CityName;
+import com.sirbishcopt.unchartedwaters.service.UpdatingService;
+import com.sirbishcopt.unchartedwaters.utils.ExtractionUtil;
 import discord4j.core.event.domain.message.MessageCreateEvent;
 import discord4j.core.object.entity.Message;
-import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Controller;
 import reactor.core.publisher.Mono;
 
-@Component
+@Controller
 public class MarkAsEmptyListener implements EventListener<MessageCreateEvent> {
 
-    private UpdatingController updatingController;
+    private final UpdatingService updatingService;
 
-    public MarkAsEmptyListener(UpdatingController updatingController) {
-        this.updatingController = updatingController;
+    public MarkAsEmptyListener(UpdatingService updatingService) {
+        this.updatingService = updatingService;
     }
 
     public Mono<Void> processCommand(Message message) {
 
         // TODO error handling
         if (message.getContent().toLowerCase().startsWith("!empty")) {
-            CityName cityName = updatingController.getCityName(message.getContent());
-            updatingController.markCityAsEmpty(cityName);
+            CityName cityName = ExtractionUtil.extractCityNameFromMessage(message.getContent());
+            updatingService.markCityAsEmpty(cityName);
             return Mono.just(message)
                     .flatMap(Message::getChannel)
                     .flatMap(channel -> channel.createMessage(cityName + " marked as empty :grimacing:"))

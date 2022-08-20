@@ -12,6 +12,9 @@ public class ImageManipulationForCommoditiesService implements ImageManipulation
 
     public BufferedImage prepareImage(String url, boolean isRightSideNeeded) {
 
+        final double percentageInDoubleOfBasicImageToBeDeletedFromTop = 0.3;
+        final double percentageInDoubleOfBasicImageToBeCopiedFromTop = 0.61;
+
         BufferedImage bufferedImage = null;
         try {
             URL imageFile = new URL(url);
@@ -19,9 +22,11 @@ public class ImageManipulationForCommoditiesService implements ImageManipulation
         } catch (Exception e) {
         }
 
-        BufferedImage preparedImage = null;
-        int yStartPoint = (int) (bufferedImage.getHeight() * 0.3);
-        int yEndPoint = (int) (bufferedImage.getHeight() * 0.61);
+        // TODO Optional.ofNullable(bufferedImage).orElseThrow()
+
+        BufferedImage preparedImage;
+        int yStartPoint = (int) (bufferedImage.getHeight() * percentageInDoubleOfBasicImageToBeDeletedFromTop);
+        int yEndPoint = (int) (bufferedImage.getHeight() * percentageInDoubleOfBasicImageToBeCopiedFromTop);
         if (isRightSideNeeded) {
             preparedImage = ImageHelper.getSubImage(bufferedImage, bufferedImage.getWidth() / 2, yStartPoint, bufferedImage.getWidth() / 2, yEndPoint);
             preparedImage = ImageHelper.convertImageToGrayscale(preparedImage);
