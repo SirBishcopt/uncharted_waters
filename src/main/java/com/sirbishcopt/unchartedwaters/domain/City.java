@@ -23,17 +23,16 @@ public class City {
         for (CommodityName commodityName : CommodityName.values()) {
             commodities.add(new Commodity(commodityName));
         }
-        this.empty = Boolean.FALSE;
     }
 
     public Commodity getCommodityByName(CommodityName commodityName) {
+        Commodity searchedCommodity = null;
         for (Commodity commodity : commodities) {
             if (commodity.getCommodityName() == commodityName) {
-                return commodity;
+                searchedCommodity = commodity;
             }
         }
-        // TODO throw exception
-        return null;
+        return searchedCommodity;
     }
 
     public List<Commodity> getCommodities() {

@@ -1,6 +1,8 @@
 package com.sirbishcopt.unchartedwaters.controller.events;
 
 import com.sirbishcopt.unchartedwaters.domain.CityName;
+import com.sirbishcopt.unchartedwaters.exceptions.InvalidCommandException;
+import com.sirbishcopt.unchartedwaters.exceptions.RepositoryException;
 import com.sirbishcopt.unchartedwaters.service.UpdatingService;
 import com.sirbishcopt.unchartedwaters.utils.ExtractionUtil;
 import discord4j.core.event.domain.message.MessageCreateEvent;
@@ -19,15 +21,25 @@ public class MarkAsEmptyListener implements EventListener<MessageCreateEvent> {
 
     public Mono<Void> processCommand(Message message) {
 
-        // TODO error handling
         if (message.getContent().toLowerCase().startsWith("!empty")) {
-            CityName cityName = ExtractionUtil.extractCityNameFromMessage(message.getContent());
-            updatingService.markCityAsEmpty(cityName);
+
+            CityName cityName;
+            try {
+                cityName = ExtractionUtil.extractCityNameFromMessage(message.getContent());
+                updatingService.markCityAsEmpty(cityName);
+            } catch (InvalidCommandException | RepositoryException e) {
+                return Mono.just(message)
+                        .flatMap(Message::getChannel)
+                        .flatMap(channel -> channel.createMessage(message.getAuthor().get().getMention() + e.getMessage()))
+                        .then();
+            }
+
             return Mono.just(message)
                     .flatMap(Message::getChannel)
                     .flatMap(channel -> channel.createMessage(cityName + " marked as empty :grimacing:"))
                     .then();
         }
+
         return Mono.empty();
     }
 

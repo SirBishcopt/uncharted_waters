@@ -1,6 +1,7 @@
 package com.sirbishcopt.unchartedwaters.controller.events;
 
 import com.sirbishcopt.unchartedwaters.domain.CityName;
+import com.sirbishcopt.unchartedwaters.exceptions.RepositoryException;
 import com.sirbishcopt.unchartedwaters.service.IncompleteCitiesService;
 import discord4j.core.event.domain.message.MessageCreateEvent;
 import discord4j.core.object.entity.Message;
@@ -21,13 +22,24 @@ public class WhereToGoListener implements EventListener<MessageCreateEvent> {
     public Mono<Void> processCommand(Message message) {
 
         if (message.getContent().equalsIgnoreCase("!where to go")) {
-            Map<CityName, Integer> incompleteCities = incompleteCitiesService.listNamesOfIncompleteCitiesAndAmountOfLackingCommodities();
+
+            Map<CityName, Integer> incompleteCities;
+            try {
+                incompleteCities = incompleteCitiesService.listNamesOfIncompleteCitiesAndAmountOfLackingCommodities();
+            } catch (RepositoryException e) {
+                return Mono.just(message)
+                        .flatMap(Message::getChannel)
+                        .flatMap(channel -> channel.createMessage(message.getAuthor().get().getMention() + e.getMessage()))
+                        .then();
+            }
+
             String incompleteCitiesMessage = createIncompleteCitiesMessage(incompleteCities);
             return Mono.just(message)
                     .flatMap(Message::getChannel)
                     .flatMap(channel -> channel.createMessage(incompleteCitiesMessage))
                     .then();
         }
+
         return Mono.empty();
     }
 

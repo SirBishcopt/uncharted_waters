@@ -1,6 +1,7 @@
 package com.sirbishcopt.unchartedwaters.service;
 
 import com.sirbishcopt.unchartedwaters.domain.*;
+import com.sirbishcopt.unchartedwaters.exceptions.RepositoryException;
 import com.sirbishcopt.unchartedwaters.repository.LeaderRepository;
 import org.springframework.stereotype.Service;
 
@@ -17,18 +18,23 @@ public class NextCityService {
         this.leaderRepository = leaderRepository;
     }
 
-    // TODO Optional na końcu z errorem żeby nie null, gdy cała baza pusta
-    public CityName getNextCity(Inventory inventory, boolean isLastTransaction) {
+    public CityName getNextCity(Inventory inventory, boolean isLastTransaction) throws RepositoryException {
 
         CityName bestCityName = null;
         int profitFromBestCity = 0;
 
         List<City> cities;
 
-        if (!isLastTransaction) {
-            cities = leaderRepository.getCitiesThatAreNotEmpty();
-        } else {
+        if (isLastTransaction) {
             cities = leaderRepository.getAllCities();
+            if (cities.isEmpty()) {
+                throw new RepositoryException(" Cannot perform your command. Make sure you use !reset first.");
+            }
+        } else {
+            cities = leaderRepository.getCitiesThatAreNotEmpty();
+            if (cities.isEmpty()) {
+                throw new RepositoryException(" Cannot perform your command. All cities are marked as empty. Use !last command.");
+            }
         }
 
         for (City city : cities) {

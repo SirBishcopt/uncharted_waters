@@ -2,6 +2,8 @@ package com.sirbishcopt.unchartedwaters.controller.events;
 
 import com.sirbishcopt.unchartedwaters.domain.CityName;
 import com.sirbishcopt.unchartedwaters.domain.Inventory;
+import com.sirbishcopt.unchartedwaters.exceptions.InvalidCommandException;
+import com.sirbishcopt.unchartedwaters.exceptions.RepositoryException;
 import com.sirbishcopt.unchartedwaters.service.NextCityService;
 import com.sirbishcopt.unchartedwaters.utils.ExtractionUtil;
 import discord4j.core.event.domain.message.MessageCreateEvent;
@@ -21,8 +23,19 @@ public class LastCityListener implements EventListener<MessageCreateEvent> {
     public Mono<Void> processCommand(Message message) {
 
         if (message.getContent().toLowerCase().startsWith("!last")) {
-            Inventory inventory = ExtractionUtil.extractInventoryFromMessage(message.getContent());
-            CityName lastCity = nextCityService.getNextCity(inventory, true);
+
+            Inventory inventory;
+            CityName lastCity;
+            try {
+                inventory = ExtractionUtil.extractInventoryFromMessage(message.getContent());
+                lastCity = nextCityService.getNextCity(inventory, true);
+            } catch (InvalidCommandException | RepositoryException e) {
+                return Mono.just(message)
+                        .flatMap(Message::getChannel)
+                        .flatMap(channel -> channel.createMessage(message.getAuthor().get().getMention() + e.getMessage()))
+                        .then();
+            }
+
             String userName = message.getUserData().username();
             return Mono.just(message)
                     .flatMap(Message::getChannel)

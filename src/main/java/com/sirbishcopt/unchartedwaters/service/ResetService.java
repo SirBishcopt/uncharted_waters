@@ -6,7 +6,7 @@ import org.springframework.stereotype.Service;
 @Service
 public class ResetService {
 
-    private LeaderRepository leaderRepository;
+    private final LeaderRepository leaderRepository;
 
     public ResetService(LeaderRepository leaderRepository) {
         this.leaderRepository = leaderRepository;

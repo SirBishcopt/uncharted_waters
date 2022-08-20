@@ -1,6 +1,10 @@
 package com.sirbishcopt.unchartedwaters.controller.events;
 
 import com.sirbishcopt.unchartedwaters.domain.CityName;
+import com.sirbishcopt.unchartedwaters.exceptions.InvalidAttachmentException;
+import com.sirbishcopt.unchartedwaters.exceptions.InvalidCommandException;
+import com.sirbishcopt.unchartedwaters.exceptions.OcrServiceException;
+import com.sirbishcopt.unchartedwaters.exceptions.RepositoryException;
 import com.sirbishcopt.unchartedwaters.service.UpdatingService;
 import com.sirbishcopt.unchartedwaters.utils.ExtractionUtil;
 import com.sirbishcopt.unchartedwaters.utils.ValidationUtil;
@@ -20,18 +24,28 @@ public class UpdatingListener implements EventListener<MessageCreateEvent> {
 
     public Mono<Void> processCommand(Message message) {
 
-        // TODO error handling
         if (message.getContent().toLowerCase().startsWith("!add")) {
-            ValidationUtil.validateAttachments(message.getAttachments());
-            String[] imagesUrl = ExtractionUtil.extractUrlFromAttachment(message.getAttachments());
-            CityName cityName = ExtractionUtil.extractCityNameFromMessage(message.getContent());
-            updatingService.updateCity(cityName, imagesUrl);
+
+            CityName cityName;
+            try {
+                ValidationUtil.validateAttachments(message.getAttachments());
+                String[] imagesUrl = ExtractionUtil.extractUrlFromAttachment(message.getAttachments());
+                cityName = ExtractionUtil.extractCityNameFromMessage(message.getContent());
+                updatingService.updateCity(cityName, imagesUrl);
+            } catch (InvalidAttachmentException | InvalidCommandException | OcrServiceException | RepositoryException e) {
+                return Mono.just(message)
+                        .flatMap(Message::getChannel)
+                        .flatMap(channel -> channel.createMessage(message.getAuthor().get().getMention() + e.getMessage()))
+                        .then();
+            }
+
             String userName = message.getUserData().username();
             return Mono.just(message)
                     .flatMap(Message::getChannel)
                     .flatMap(channel -> channel.createMessage(cityName + " updated, thanks " + userName + " :kissing_heart:"))
                     .then();
         }
+
         return Mono.empty();
     }
 

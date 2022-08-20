@@ -11,8 +11,8 @@ import java.util.List;
 @Repository
 public class LeaderRepository {
 
-    private CityRepository cityRepository;
-    private CommodityRepository commodityRepository;
+    private final CityRepository cityRepository;
+    private final CommodityRepository commodityRepository;
 
     public LeaderRepository(CityRepository cityRepository, CommodityRepository commodityRepository) {
         this.cityRepository = cityRepository;
