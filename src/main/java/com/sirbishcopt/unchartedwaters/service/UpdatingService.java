@@ -8,8 +8,10 @@ import com.sirbishcopt.unchartedwaters.exceptions.OcrServiceException;
 import com.sirbishcopt.unchartedwaters.exceptions.RepositoryException;
 import com.sirbishcopt.unchartedwaters.repository.LeaderRepository;
 import com.sirbishcopt.unchartedwaters.service.ocr.OcrService;
+import net.sourceforge.tess4j.TesseractException;
 import org.springframework.stereotype.Service;
 
+import java.io.IOException;
 import java.util.NoSuchElementException;
 import java.util.regex.Pattern;
 
@@ -24,23 +26,23 @@ public class UpdatingService {
         this.ocrService = ocrService;
     }
 
-    public void updateCity(CityName cityName, String[] attachments) throws RepositoryException, OcrServiceException {
+    public void updateCity(CityName cityName, String[] attachments) {
         City city;
         try {
             city = leaderRepository.getCityByName(cityName);
         } catch (NoSuchElementException e) {
             throw new RepositoryException(" Cannot perform your command. Make sure you use !reset first.");
         }
-        String ocrText = ocrService.doOcr(attachments);
         try {
+            String ocrText = ocrService.doOcr(attachments);
             city = updateCommodities(city, ocrText);
-        } catch (IndexOutOfBoundsException e) {
+        } catch (IOException | NoSuchElementException | TesseractException | IndexOutOfBoundsException e) {
             throw new OcrServiceException(" I've encountered problems while reading your screenshots.");
         }
         leaderRepository.save(city);
     }
 
-    public void markCityAsEmpty(CityName cityName) throws RepositoryException {
+    public void markCityAsEmpty(CityName cityName) {
         try {
             leaderRepository.markCityAsEmpty(cityName);
         } catch (NoSuchElementException e) {
@@ -71,10 +73,10 @@ public class UpdatingService {
 
         String[] ocrLineWithPriceInLines = ocrLineWithPrice.split("\\s+");
 
-        for (int k = 0; k < ocrLineWithPriceInLines.length; k++) {
+        for (int i = 0; i < ocrLineWithPriceInLines.length; i++) {
             Pattern compiledPatternPrice = Pattern.compile("Pric");
-            if (compiledPatternPrice.matcher(ocrLineWithPriceInLines[k]).find()) {
-                int price = ConvertStringToInt(ocrLineWithPriceInLines[k + 1]);
+            if (compiledPatternPrice.matcher(ocrLineWithPriceInLines[i]).find()) {
+                int price = ConvertStringToInt(ocrLineWithPriceInLines[i + 1]);
                 commodity.setPrice(price);
                 break;
             }

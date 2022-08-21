@@ -20,13 +20,13 @@ public class IncompleteCitiesService {
         this.leaderRepository = leaderRepository;
     }
 
-    public Map<CityName, Integer> listNamesOfIncompleteCitiesAndAmountOfLackingCommodities() throws RepositoryException {
+    public Map<CityName, Integer> listNamesOfIncompleteCitiesAndAmountOfLackingCommodities() {
         Map<CityName, Integer> incompleteCities = new TreeMap<>();
         for (CityName cityName : CityName.values()) {
             City city;
-            try{
+            try {
                 city = leaderRepository.getCityByName(cityName);
-            } catch (NoSuchElementException e){
+            } catch (NoSuchElementException e) {
                 throw new RepositoryException(" Cannot perform your command. Make sure you use !reset first.");
             }
             int commoditiesNeedingUpdate = getAmountOfCommoditiesWithPriceEqualsZero(city);

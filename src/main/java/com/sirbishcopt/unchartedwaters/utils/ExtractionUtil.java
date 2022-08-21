@@ -11,7 +11,7 @@ import java.util.regex.Pattern;
 
 public final class ExtractionUtil {
 
-    public static CityName extractCityNameFromMessage(String message) throws InvalidCommandException {
+    public static CityName extractCityNameFromMessage(String message) {
         for (CityName cityName : CityName.values()) {
             Pattern compiledPattern = Pattern.compile(cityName.getAbbrev().toLowerCase());
             if (compiledPattern.matcher(message.toLowerCase()).find()) {
@@ -29,7 +29,7 @@ public final class ExtractionUtil {
         return imagesUrl;
     }
 
-    public static Inventory extractInventoryFromMessage(String message) throws InvalidCommandException {
+    public static Inventory extractInventoryFromMessage(String message) {
 
         Inventory inventory = new Inventory();
         String[] messageInLines = message.split("\\s+");

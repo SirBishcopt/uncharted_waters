@@ -1,6 +1,5 @@
 package com.sirbishcopt.unchartedwaters.service.ocr;
 
-import com.sirbishcopt.unchartedwaters.exceptions.OcrServiceException;
 import net.sourceforge.tess4j.util.ImageHelper;
 import org.springframework.stereotype.Service;
 
@@ -8,7 +7,6 @@ import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.net.URL;
-import java.util.NoSuchElementException;
 import java.util.Optional;
 
 @Service
@@ -17,15 +15,11 @@ public class ImageManipulationForCommoditiesService implements ImageManipulation
     final double percentageInDoubleOfBasicImageToBeDeletedFromTop = 0.3;
     final double percentageInDoubleOfBasicImageToBeCopiedFromTop = 0.61;
 
-    public BufferedImage prepareImage(String url, boolean isRightSideNeeded) throws OcrServiceException {
+    public BufferedImage prepareImage(String url, boolean isRightSideNeeded) throws IOException {
 
         BufferedImage bufferedImage;
-        try {
-            URL imageFile = new URL(url);
-            bufferedImage = Optional.ofNullable(ImageIO.read(imageFile)).orElseThrow();
-        } catch (IOException | NoSuchElementException e) {
-            throw new OcrServiceException();
-        }
+        URL imageFile = new URL(url);
+        bufferedImage = Optional.ofNullable(ImageIO.read(imageFile)).orElseThrow();
 
         BufferedImage preparedImage;
         int yStartPoint = (int) (bufferedImage.getHeight() * percentageInDoubleOfBasicImageToBeDeletedFromTop);

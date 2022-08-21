@@ -1,12 +1,12 @@
 package com.sirbishcopt.unchartedwaters.service.ocr;
 
-import com.sirbishcopt.unchartedwaters.exceptions.OcrServiceException;
 import net.sourceforge.tess4j.ITesseract;
 import net.sourceforge.tess4j.Tesseract;
 import net.sourceforge.tess4j.TesseractException;
 import org.springframework.stereotype.Service;
 
 import java.awt.image.BufferedImage;
+import java.io.IOException;
 
 @Service
 public class CommoditiesService implements OcrService {
@@ -17,7 +17,7 @@ public class CommoditiesService implements OcrService {
         this.imageManipulationService = imageManipulationService;
     }
 
-    public String doOcr(String[] attachments) throws OcrServiceException {
+    public String doOcr(String[] attachments) throws IOException, TesseractException {
 
         ITesseract instance = new Tesseract();
         instance.setDatapath(System.getenv("TESSDATA_PREFIX"));
@@ -25,24 +25,13 @@ public class CommoditiesService implements OcrService {
 
         StringBuilder ocrText = new StringBuilder();
 
-        try {
-
-
-            for (String attachment : attachments) {
-                BufferedImage preparedImageLeftSide = imageManipulationService.prepareImage(attachment, false);
-                ocrText.append(instance.doOCR(preparedImageLeftSide));
-                ocrText.append("\n ");
-                BufferedImage preparedImageRightSide = imageManipulationService.prepareImage(attachment, true);
-                ocrText.append(instance.doOCR(preparedImageRightSide));
-                ocrText.append("\n ");
-            }
-
-            if (ocrText.isEmpty()) {
-                throw new OcrServiceException();
-            }
-
-        } catch (OcrServiceException | TesseractException e) {
-            throw new OcrServiceException(" I've encountered problems while reading your screenshots.");
+        for (String attachment : attachments) {
+            BufferedImage preparedImageLeftSide = imageManipulationService.prepareImage(attachment, false);
+            ocrText.append(instance.doOCR(preparedImageLeftSide));
+            ocrText.append("\n ");
+            BufferedImage preparedImageRightSide = imageManipulationService.prepareImage(attachment, true);
+            ocrText.append(instance.doOCR(preparedImageRightSide));
+            ocrText.append("\n ");
         }
 
         return ocrText.toString();

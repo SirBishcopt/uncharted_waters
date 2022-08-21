@@ -18,7 +18,7 @@ public class NextCityService {
         this.leaderRepository = leaderRepository;
     }
 
-    public CityName getNextCity(Inventory inventory, boolean isLastTransaction) throws RepositoryException {
+    public CityName getNextCity(Inventory inventory, boolean isLastTransaction) {
 
         CityName bestCityName = null;
         int profitFromBestCity = 0;

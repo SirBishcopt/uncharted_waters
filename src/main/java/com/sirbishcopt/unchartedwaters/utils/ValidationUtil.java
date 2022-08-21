@@ -7,7 +7,7 @@ import java.util.List;
 
 public final class ValidationUtil {
 
-    public static void validateAttachments(List<Attachment> attachments) throws InvalidAttachmentException {
+    public static void validateAttachments(List<Attachment> attachments) {
         if (attachments.size() != 2 ||
                 (!attachments.get(0).getUrl().toLowerCase().endsWith("jpg") &&
                         !attachments.get(0).getUrl().toLowerCase().endsWith("png")) ||

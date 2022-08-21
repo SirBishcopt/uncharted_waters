@@ -1,9 +1,11 @@
 package com.sirbishcopt.unchartedwaters.service.ocr;
 
-import com.sirbishcopt.unchartedwaters.exceptions.OcrServiceException;
+import net.sourceforge.tess4j.TesseractException;
+
+import java.io.IOException;
 
 public interface OcrService {
 
-    String doOcr(String[] attachments) throws OcrServiceException;
+    String doOcr(String[] attachments) throws IOException, TesseractException;
 
 }
