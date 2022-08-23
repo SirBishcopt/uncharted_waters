@@ -38,13 +38,23 @@ public final class ExtractionUtil {
             for (CommodityName commodityName : CommodityName.values()) {
                 Pattern compiledPatternCommodity = Pattern.compile(commodityName.getAbbrev().toLowerCase());
                 if (compiledPatternCommodity.matcher(messageInLines[i].toLowerCase()).find()) {
+
+                    if(inventory.getCommodities().containsKey(commodityName)){
+                        throw new InvalidCommandException(" Make sure your command is constructed in correct way.");
+                    }
+
+                    if (commodityName == CommodityName.TEA_LEAVES && !messageInLines[i + 1].matches("[0-9]+")) {
+                        i++;
+                    }
                     int price;
                     try {
                         price = Integer.parseInt(messageInLines[i + 1]);
                     } catch (IndexOutOfBoundsException | NumberFormatException e) {
                         throw new InvalidCommandException(" Make sure your command is constructed in correct way.");
                     }
+
                     inventory.addCommodityAndAmount(commodityName, price);
+
                 }
             }
         }
