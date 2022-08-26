@@ -34,6 +34,8 @@ public class CommoditiesService implements OcrService {
             ocrText.append("\n ");
         }
 
+
+        System.out.println(ocrText.toString());
         return ocrText.toString();
 
     }

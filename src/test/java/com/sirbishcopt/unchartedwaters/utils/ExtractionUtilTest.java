@@ -19,7 +19,7 @@ import static org.mockito.Mockito.mock;
 class ExtractionUtilTest {
 
     @Test
-    void shouldExtractCityNameFromMessage() {
+    void extractCityNameFromMessageShouldExtractCityNameFromString() {
         // given
         String message = "!empty Aden";
         // when
@@ -45,23 +45,24 @@ class ExtractionUtilTest {
     }
 
     @Test
-    void shouldExtractUrlFromAttachment() {
+    void extractUrlFromAttachmentShouldExtractUrlFromAttachment() {
         // given
         Attachment attachment1 = mock(Attachment.class);
         Attachment attachment2 = mock(Attachment.class);
         List<Attachment> attachments = new ArrayList<>(List.of(attachment1, attachment2));
-        // when
+
         String url1 = "https://cdn.discordapp.com/attachments/970010293264580738/998524337646743613/IMG_3327.png";
         given(attachment1.getUrl()).willReturn(url1);
         String url2 = "https://cdn.discordapp.com/attachments/970011748956524657/997784017124466728/Screenshot_20220716-103705.jpg";
         given(attachment2.getUrl()).willReturn(url2);
+
         // then
         assertThat(ExtractionUtil.extractUrlFromAttachment(attachments)[0], is(url1));
         assertThat(ExtractionUtil.extractUrlFromAttachment(attachments)[1], is(url2));
     }
 
     @Test
-    void shouldExtractOneInventoryItemFromMessage() {
+    void extractInventoryFromMessageShouldExtractOneInventoryItemFromMessage() {
         // given
         String message = "!next tea leaves 100";
         // when
@@ -72,7 +73,7 @@ class ExtractionUtilTest {
     }
 
     @Test
-    void shouldExtractTwoInventoryItemsFromMessage() {
+    void extractInventoryFromMessageShouldExtractTwoInventoryItemsFromMessage() {
         // given
         String message = "!next alcohol 120 bananas 50";
         // when
