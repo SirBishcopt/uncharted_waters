@@ -3,6 +3,7 @@ package com.sirbishcopt.unchartedwaters.domain;
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 @Entity
 public class City {
@@ -20,19 +21,16 @@ public class City {
     public City(CityName cityName) {
         this.cityName = cityName;
         commodities = new ArrayList<>();
-        for (CommodityName commodityName : CommodityName.values()) {
-            commodities.add(new Commodity(commodityName));
-        }
+        CommodityName.stream()
+                .map(Commodity::new)
+                .forEach(commodity -> commodities.add(commodity));
     }
 
     public Commodity getCommodityByName(CommodityName commodityName) {
-        Commodity searchedCommodity = null;
-        for (Commodity commodity : commodities) {
-            if (commodity.getCommodityName() == commodityName) {
-                searchedCommodity = commodity;
-            }
-        }
-        return searchedCommodity;
+        return commodities.stream()
+                .filter(commodity -> commodity.getCommodityName() == commodityName)
+                .findFirst()
+                .get();
     }
 
     public List<Commodity> getCommodities() {
@@ -47,4 +45,16 @@ public class City {
         return cityName;
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        City city = (City) o;
+        return empty == city.empty && cityName == city.cityName && commodities.equals(city.commodities);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(cityName, commodities, empty);
+    }
 }

@@ -22,11 +22,9 @@ public final class ExtractionUtil {
     }
 
     public static String[] extractUrlFromAttachment(List<Attachment> attachments) {
-        String[] imagesUrl = new String[2];
-        for (int i = 0; i < attachments.size(); i++) {
-            imagesUrl[i] = attachments.get(i).getUrl();
-        }
-        return imagesUrl;
+        return attachments.stream()
+                .map(Attachment::getUrl)
+                .toArray(String[]::new);
     }
 
     public static Inventory extractInventoryFromMessage(String message) {

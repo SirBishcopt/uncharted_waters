@@ -1,5 +1,7 @@
 package com.sirbishcopt.unchartedwaters.domain;
 
+import java.util.stream.Stream;
+
 public enum CommodityName {
     AGATE("Agat", "Agate"),
     ALCOHOL("Alcoh", "Alcohol"),
@@ -36,6 +38,10 @@ public enum CommodityName {
 
     public String toString() {
         return name;
+    }
+
+    public static Stream<CommodityName> stream() {
+        return Stream.of(CommodityName.values());
     }
 
 }

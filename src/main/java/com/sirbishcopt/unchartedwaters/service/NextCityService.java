@@ -3,11 +3,11 @@ package com.sirbishcopt.unchartedwaters.service;
 import com.sirbishcopt.unchartedwaters.domain.*;
 import com.sirbishcopt.unchartedwaters.exceptions.RepositoryException;
 import com.sirbishcopt.unchartedwaters.repository.LeaderRepository;
+import com.sirbishcopt.unchartedwaters.utils.RandomUtil;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Map;
-import java.util.Random;
 
 @Service
 public class NextCityService {
@@ -50,22 +50,12 @@ public class NextCityService {
                 bestCityName = city.getCityName();
                 profitFromBestCity = profit;
             } else if (profit == profitFromBestCity) {
-                bestCityName = drawRandomCityName(city.getCityName(), bestCityName);
+                bestCityName = RandomUtil.drawRandomCityNameOfTwo(city.getCityName(), bestCityName);
             }
 
         }
 
         return bestCityName;
-    }
-
-    private CityName drawRandomCityName(CityName cityName1, CityName cityName2) {
-        Random random = new Random();
-        double randomDouble = random.nextDouble();
-        if (randomDouble < 0.5) {
-            return cityName1;
-        } else {
-            return cityName2;
-        }
     }
 
 }

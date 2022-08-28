@@ -1,11 +1,11 @@
 package com.sirbishcopt.unchartedwaters.domain;
 
+import java.util.HashMap;
 import java.util.Map;
-import java.util.TreeMap;
 
 public class Inventory {
 
-    private Map<CommodityName, Integer> commodities = new TreeMap<>();
+    private final Map<CommodityName, Integer> commodities = new HashMap<>();
 
     public Inventory() {
     }

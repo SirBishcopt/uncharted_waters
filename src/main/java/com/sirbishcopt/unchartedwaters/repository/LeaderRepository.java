@@ -2,7 +2,6 @@ package com.sirbishcopt.unchartedwaters.repository;
 
 import com.sirbishcopt.unchartedwaters.domain.City;
 import com.sirbishcopt.unchartedwaters.domain.CityName;
-import com.sirbishcopt.unchartedwaters.domain.Commodity;
 import com.sirbishcopt.unchartedwaters.domain.CommodityName;
 import org.springframework.stereotype.Repository;
 
@@ -51,22 +50,19 @@ public class LeaderRepository {
     }
 
     private void resetTableIfRepositoryIsEmpty() {
-        for (CityName cityName : CityName.values()) {
-            City city = new City(cityName);
-            save(city);
-        }
+        CityName.stream()
+                .map(City::new)
+                .forEach(this::save);
     }
 
     private void resetTableIfRepositoryIsNotEmpty() {
-        for (CityName cityName : CityName.values()) {
-            City city = getCityByName(cityName);
-            city.setEmpty(false);
-            for (CommodityName commodityName : CommodityName.values()) {
-                Commodity commodity = city.getCommodityByName(commodityName);
-                commodity.setPrice(0);
-            }
-            save(city);
-        }
+        CityName.stream()
+                .map(this::getCityByName)
+                .peek(city -> city.setEmpty(false))
+                .peek(city -> CommodityName.stream()
+                        .map(city::getCommodityByName)
+                        .forEach(commodity -> commodity.setPrice(0)))
+                .forEach(this::save);
     }
 
 }

@@ -38,13 +38,10 @@ public class IncompleteCitiesService {
     }
 
     private int getAmountOfCommoditiesWithPriceEqualsZero(City city) {
-        int commoditiesWithPriceEqualsZero = 0;
-        for (CommodityName commodityName : CommodityName.values()) {
-            if (city.getCommodityByName(commodityName).getPrice() == 0) {
-                commoditiesWithPriceEqualsZero++;
-            }
-        }
-        return commoditiesWithPriceEqualsZero;
+        return (int) CommodityName.stream()
+                .map(city::getCommodityByName)
+                .filter(commodity -> commodity.getPrice() == 0)
+                .count();
     }
 
 }

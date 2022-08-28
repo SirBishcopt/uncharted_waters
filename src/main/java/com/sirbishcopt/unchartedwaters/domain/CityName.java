@@ -1,5 +1,7 @@
 package com.sirbishcopt.unchartedwaters.domain;
 
+import java.util.stream.Stream;
+
 public enum CityName {
 
     ADEN("Aden", "Aden"),
@@ -57,6 +59,10 @@ public enum CityName {
 
     public String toString() {
         return name;
+    }
+
+    public static Stream<CityName> stream() {
+        return Stream.of(CityName.values());
     }
 
 }
